@@ -1,0 +1,10 @@
+node_modules
+Dockerfile
+.dockerignore
+pnpm-lock.yaml
+.env
+jsconfig.json
+.vscode
+.prettierrc
+.prettierignore
+../apitsv1
