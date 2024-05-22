@@ -1,5 +1,5 @@
 import Router from 'express';
-import { apiUser, apiUserByUuid, apiCreateUsers, formSubmit } from './logic.mjs';
+import { apiUser, apiUserByUuid, apiCreateUsers, formSubmit, serveForm } from './logic.mjs';
 import { uuidGen } from './util.mjs';
 
 //Router for the API
@@ -12,7 +12,8 @@ router.get('/api/uuid', /*no callback else crash*/ uuidGen);
 router.get('/api/user', /*no callback else crash*/ apiUser);
 router.get('/api/user/:uuid', /*no callback else crash*/ apiUserByUuid);
 router.post('/api/user', /*no callback else crash*/ apiCreateUsers);
-router.post('/api/form/submit', formSubmit);
+router.post('/api/form/', formSubmit);
+router.get('/api/form', serveForm);  
 
 //default export
 export default router;

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Kontaktformular</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px #ccc;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 8px; /* Abgerundete Ecken */
+        }
+        textarea {
+            height: 150px;
+            resize: none;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 8px; /* Abgerundete Ecken für den Button */
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <form id="contactForm">
+        <h2>Schreiben Sie uns</h2>
+        <label for="firstname">Vorname</label>
+        <input type="text" id="firstname" name="firstname" required>
+
+        <label for="lastname">Nachname</label>
+        <input type="text" id="lastname" name="lastname" required>
+
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Ihre Mitteilung</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <label>
+            <input type="checkbox" id="privacy" name="privacy" required>
+            Bitte bestätigen Sie, dass Sie die Datenschutzrichtlinien der FMH-Finanzberatung gelesen haben und diese akzeptieren.
+        </label>
+
+        <button type="submit">Senden</button>
+    </form>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            let firstname = document.getElementById('firstname').value;
+            let lastname = document.getElementById('lastname').value;
+            let email = document.getElementById('email').value;
+            let message = document.getElementById('message').value;
+            let privacy = document.getElementById('privacy').checked ? "on" : "off";
+
+            // Daten für die Übertragung als JSON vorbereiten
+            const data = {
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                message: message,
+                privacy: privacy
+            };
+
+            const apiUrl = 'https://msc-connect.xyz/api/form/'; 
+
+            try {
+                console.log('Daten senden:', data)
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Vielen Dank für Ihre Nachricht.");
+                } else if (response.status === 400) {
+                    alert("Fehler: Fehlende oder ungültige Daten.");
+                } else if (response.status === 500) {
+                    alert("Serverfehler. Bitte versuchen Sie es später erneut.");
+                } else {
+                    alert(`Unbekannter Fehler: HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Fehler beim Senden der Anfrage:', error);
+                alert("Ein Fehler ist aufgetreten. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.");
+            }
+        });
+    </script>
+</body>
+</html>

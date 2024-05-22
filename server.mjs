@@ -9,11 +9,14 @@ import "dotenv/config";
 
 //instanciate express as server
 const server = express();
+// nicht in Produktion Verwenden!
 //set CLIENTURL in .env file
+/*
 const corsOptions = {
     origin: `${process.env.CLIENTURL}`,
     optionsSuccessStatus: 200
 };
+*/
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
@@ -22,11 +25,11 @@ const limiter = rateLimit({
 //Middlewares
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
+server.use(cors())
+server.set('trust proxy', 1);
 server.use(router);
-server.use(cors(corsOptions));
 server.use(helmet())
 server.use(limiter);
-server.set('trust proxy', 1);
 server.use(morgan('combined'));
 
 //custom middleware for handling wrong JSON Syntax
@@ -37,11 +40,22 @@ server.use((err, req, res, next) => {
     }
     next();
 });
+//custom middleare for handling cors
+server.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*") // oder eine spezifische URL
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept",
+	)
+	next()
+})
+
+
 
 // config is done in .env or Docker Env mapping
 const serverport = process.env.SERVERPORT || 4000;
 // Start the server
 server.listen(serverport, () => {
-	console.log(`Server is running on port ${serverport}`)
+	console.log(`Server is running on Port: ${serverport}`)
 	console.log(`Cors is set to: ${process.env.CLIENTURL}`)
 })
