@@ -8,13 +8,13 @@ import favicon from 'serve-favicon';
 import cookieParser from "cookie-parser";
 import router from "./routes.mjs";
 import "dotenv/config";
-import { fileURLToPath } from "url"
 import path from "path"
+import { uuidGen } from "./util.mjs";
+
 
 //instanciate express as server
 const server = express();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const corsOptions = {
     origin: `${process.env.CLIENTURL}`,
@@ -29,7 +29,7 @@ const limiter = rateLimit({
 
 //Middlewares
 server.use(express.static("public"))
-server.use(favicon(path.join(__dirname, "public", "favicon.ico")))
+server.use(favicon(path.join(process.cwd(), "public", "favicon.ico")))
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(cookieParser());
@@ -55,6 +55,7 @@ server.set('trust proxy', 1);
 server.use(router);
 server.use(morgan('combined'));
 
+
 //custom middleware for handling wrong JSON Syntax
 server.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -62,6 +63,14 @@ server.use((err, req, res, next) => {
         return res.status(400).json({ error: 'Invalid JSON' }); // Bad JSON
     }
     next();
+});
+
+//cookie middleware
+server.use((req, res, next) => {
+ 
+  res.cookie('user', `${uuidGen}`, { maxAge: 900000, httpOnly: true });
+  console.log('Cookie gesetzt', "user", `${uuidGen}`);
+  next();
 });
 
 //custom middleare for handling cors
@@ -74,8 +83,6 @@ server.use(function (req, res, next) {
 	)
 	next()
 })
-
-
 
 // config is done in .env or Docker Env mapping
 const serverport = process.env.SERVERPORT || 4000;

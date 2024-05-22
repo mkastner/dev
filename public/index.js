@@ -19,8 +19,10 @@ document
 
 		const apiUrl = "https://api.msc-connect.xyz/api/form/"
 
+		document.getElementById("loadingIndicator").style.display = "block" // Zeige den Ladeindikator
+		document.querySelector("button[type='submit']").disabled = true // Deaktiviere den Senden-Button
+
 		try {
-			console.log("Daten senden:", data)
 			const response = await fetch(apiUrl, {
 				method: "POST",
 				headers: {
@@ -29,19 +31,21 @@ document
 				body: JSON.stringify(data),
 			})
 
+			document.getElementById("loadingIndicator").style.display = "none" // Verstecke den Ladeindikator
+			document.querySelector("button[type='submit']").disabled = false // Aktiviere den Senden-Button
+
 			if (response.ok) {
 				alert("Vielen Dank für Ihre Nachricht.")
-			} else if (response.status === 400) {
-				alert("Fehler: Fehlende oder ungültige Daten.")
-			} else if (response.status === 500) {
-				alert("Serverfehler. Bitte versuchen Sie es später erneut.")
 			} else {
-				alert(`Unbekannter Fehler: HTTP ${response.status}`)
+				const errorData = await response.json() // Lese Fehlermeldung vom Server
+				alert(`Fehler: ${errorData.message}`) // Zeige spezifische Fehlermeldung
 			}
 		} catch (error) {
 			console.error("Fehler beim Senden der Anfrage:", error)
 			alert(
 				"Ein Fehler ist aufgetreten. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.",
 			)
+			document.getElementById("loadingIndicator").style.display = "none" // Verstecke den Ladeindikator im Fehlerfall
+			document.querySelector("button[type='submit']").disabled = false // Aktiviere den Senden-Button
 		}
 	})

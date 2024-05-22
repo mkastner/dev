@@ -14,9 +14,9 @@ form {
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 33vw; /* Setzt die Breite auf 33% des Viewports */
+    width: calc(100% - 40px); /* Berechnet die Breite, subtrahiert die Gesamtpadding */
     max-width: 400px; /* Maximale Breite des Formulars */
-    margin: 20px; /* Zentriert das Formular horizontal und gibt vertikalen Abstand */
+    margin: 20px auto; /* Zentriert das Formular horizontal und gibt vertikalen Abstand */
     border-radius: 5px;
     box-sizing: border-box; /* Einschließt Padding und Border in die Gesamtbreite */
 }
@@ -53,7 +53,7 @@ textarea {
     color: #666;
     margin: 10px 0;
     display: flex;
-    align-items: flex-start; /* Richten Sie die Checkbox und das Label am Anfang aus */
+    align-items: center;
 }
 
 .checkbox-container input[type="checkbox"] {

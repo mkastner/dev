@@ -3,30 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Kontaktformular</title>
-    <link rel="stylesheet" href="/index.css" >
-        
+    <link rel="stylesheet" href="/index.css" />
 </head>
 <body>
     <form id="contactForm">
         <h2>Schreiben Sie uns</h2>
         <label for="firstname">Vorname</label>
-        <input type="text" id="firstname" name="firstname" required autocomplete="Name">
+        <input type="text" id="firstname" name="firstname" required autocomplete="on">
 
         <label for="lastname">Nachname</label>
-        <input type="text" id="lastname" name="lastname" required autocomplete="Last Name">
+        <input type="text" id="lastname" name="lastname" required autocomplete="on">
 
         <label for="email">E-Mail</label>
-        <input type="email" id="email" name="email" required autocomplete="E-Mail">
+        <input type="email" id="email" name="email" required autocomplete="on">
 
         <label for="message">Ihre Mitteilung</label>
         <textarea id="message" name="message" required></textarea>
 
-        <label>
-            <input type="checkbox" id="privacy" name="privacy" required>
-            Bitte bestätigen Sie, dass Sie die Datenschutzrichtlinien der FMH-Finanzberatung gelesen haben und diese akzeptieren.
-        </label>
-
+        <div class="checkbox-container">
+        <input type="checkbox" id="privacyPolicy">
+        <label for="privacyPolicy">Bitte bestätigen Sie, dass Sie die Datenschutzrichtlinien der FMH-Finanzberatung gelesen haben und diese akzeptieren.</label>
+        </div>
         <button type="submit">Senden</button>
+        <div id="loadingIndicator" style="display: none;">Wird geladen...</div> <!-- Ladeindikator hinzugefügt -->
     </form>
     <script src="/index.js"> </script>
 </body>
