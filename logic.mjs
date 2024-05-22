@@ -1,10 +1,12 @@
+/* eslint-disable no-undef */
 import pool from './db.mjs';
 import { validateForm, validateUser, nmTransportMail } from "./util.mjs"
 import { workerFactory } from './workerFactory.mjs';
 import { getUsers, getUserByUuid, checkEmailExists, createUsers } from './queries.mjs';
 
+
 // Controller for handling the logic for the routes 
-export const apiUser = (req, res) => {
+export const apiUsers = (req, res) => {
     pool.query(getUsers, (error, results) => {
         if (error) {
             console.error('Error executing query', error);
@@ -70,7 +72,7 @@ export const formSubmit = [
 	async (req, res) => {
 		const { firstname, lastname, email, message } = req.body
 		try {
-			await nmTransportMail(res, firstname, lastname, email, message)
+        await nmTransportMail(res, firstname, lastname, email, message)
 		} catch (error) {
 			console.error("Error sending mail:", error)
 			res.status(500).json({ error: "Failed to send email" })
@@ -78,7 +80,6 @@ export const formSubmit = [
 	},
 ]
 
-
 export const serveForm = (req, res) => {
-    res.sendFile('form/index.html', { root: '.' });
+    res.sendFile(`${process.cwd()}/public/index.html`)
 }

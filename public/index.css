@@ -1,0 +1,48 @@
+body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px #ccc;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 8px; /* Abgerundete Ecken */
+        }
+        textarea {
+            height: 150px;
+            resize: none;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 8px; /* Abgerundete Ecken für den Button */
+        }
+        button:hover {
+            opacity: 0.8;
+        }

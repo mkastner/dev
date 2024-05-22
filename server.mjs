@@ -4,32 +4,55 @@ import helmet from "helmet";
 import express from "express";
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import favicon from 'serve-favicon';
+import cookieParser from "cookie-parser";
 import router from "./routes.mjs";
 import "dotenv/config";
+import { fileURLToPath } from "url"
+import path from "path"
 
 //instanciate express as server
 const server = express();
-// nicht in Produktion Verwenden!
-//set CLIENTURL in .env file
-/*
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 const corsOptions = {
     origin: `${process.env.CLIENTURL}`,
     optionsSuccessStatus: 200
 };
-*/
+
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
 });
 
+
 //Middlewares
-server.use(express.urlencoded({ extended: false }));
+server.use(express.static("public"))
+server.use(favicon(path.join(__dirname, "public", "favicon.ico")))
 server.use(express.json());
-server.use(cors())
+server.use(express.urlencoded({ extended: false }));
+server.use(cookieParser());
+server.use(
+	helmet({
+		contentSecurityPolicy: {
+			directives: {
+				defaultSrc: ["'self'"], // Erlaubt alles von der eigenen Domain
+				connectSrc: [
+					"'self'",
+					"https://msc-connect.xyz",
+					"https://api.msc-connect.xyz",
+					"https://api.msc-connect.xyz/api/form",
+				], // Erlaubt Verbindungen zu diesen URLs
+				// Füge weitere Direktiven hier hinzu
+			},
+		},
+	}),
+)   
+server.use(cors(corsOptions))
+server.use(limiter);
 server.set('trust proxy', 1);
 server.use(router);
-server.use(helmet())
-server.use(limiter);
 server.use(morgan('combined'));
 
 //custom middleware for handling wrong JSON Syntax
@@ -40,7 +63,9 @@ server.use((err, req, res, next) => {
     }
     next();
 });
+
 //custom middleare for handling cors
+
 server.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*") // oder eine spezifische URL
 	res.header(
