@@ -53,7 +53,7 @@ textarea {
     color: #666;
     margin: 10px 0;
     display: flex;
-    align-items: flex-start; /* Richten Sie die Checkbox und das Label am Anfang aus */
+    align-items: center  /* Richten Sie die Checkbox und das Label am Anfang aus */
 }
 
 .checkbox-container input[type="checkbox"] {

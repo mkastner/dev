@@ -5,16 +5,13 @@ import express from "express";
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import favicon from 'serve-favicon';
-import cookieParser from "cookie-parser";
 import router from "./routes.mjs";
 import "dotenv/config";
 import path from "path"
-import { uuidGen } from "./util.mjs";
 
 
 //instanciate express as server
 const server = express();
-
 
 const corsOptions = {
     origin: `${process.env.CLIENTURL}`,
@@ -26,13 +23,11 @@ const limiter = rateLimit({
     max: 100, // limit each IP to 100 requests per windowMs
 });
 
-
 //Middlewares
 server.use(express.static("public"))
 server.use(favicon(path.join(process.cwd(), "public", "favicon.ico")))
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
-server.use(cookieParser());
 server.use(
 	helmet({
 		contentSecurityPolicy: {
@@ -40,21 +35,20 @@ server.use(
 				defaultSrc: ["'self'"], // Erlaubt alles von der eigenen Domain
 				connectSrc: [
 					"'self'",
-					"https://msc-connect.xyz",
-					"https://api.msc-connect.xyz",
-					"https://api.msc-connect.xyz/api/form",
+					`${process.env.CLIENTURL}`,
+					`${process.env.CLIENTURL}/api/form`,
 				], // Erlaubt Verbindungen zu diesen URLs
 				// Füge weitere Direktiven hier hinzu
 			},
 		},
 	}),
-)   
+) 
+
 server.use(cors(corsOptions))
 server.use(limiter);
 server.set('trust proxy', 1);
 server.use(router);
 server.use(morgan('combined'));
-
 
 //custom middleware for handling wrong JSON Syntax
 server.use((err, req, res, next) => {
@@ -65,18 +59,10 @@ server.use((err, req, res, next) => {
     next();
 });
 
-//cookie middleware
-server.use((req, res, next) => {
- 
-  res.cookie('user', `${uuidGen}`, { maxAge: 900000, httpOnly: true });
-  console.log('Cookie gesetzt', "user", `${uuidGen}`);
-  next();
-});
-
 //custom middleare for handling cors
 
 server.use(function (req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*") // oder eine spezifische URL
+	res.header("Access-Control-Allow-Origin", `${process.env.CLIENTURL}`) // oder eine spezifische URL
 	res.header(
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content-Type, Accept",

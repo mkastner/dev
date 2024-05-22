@@ -10,9 +10,13 @@ export const apiUsers = (req, res) => {
     pool.query(getUsers, (error, results) => {
         if (error) {
             console.error('Error executing query', error);
-            return res.status(500).json({ error: 'Error while searching for Users' });
+            return res
+            .status(500)
+            .json({ error: 'Error while searching for Users' });
         }
-        res.status(200).json(results.rows);
+        res
+        .status(200)
+        .json(results.rows);
     });
 };
 
@@ -21,9 +25,13 @@ export const apiUserByUuid = (req, res) => {
     pool.query(getUserByUuid, [req.params.uuid], (error, results) => {
         if (error) {
             console.error('Error executing query', error);
-            return res.status(500).json({ error: 'Error while searching by UUID' });
+            return res
+            .status(500)
+            .json({ error: 'Error while searching by UUID' });
         }
-        res.status(200).json(results.rows);
+        res
+        .status(200)
+        .json(results.rows);
     });
 };
 
@@ -32,16 +40,19 @@ export const apiCreateUsers = [
     validateUser,
     (req, res) => {
         const { firstname, lastname, email, age } = req.body;
-
         pool.query(checkEmailExists, [email], (error, results) => {
             if (error) {
                 console.error('Error executing query', error);
-                return res.status(500).json({ error: 'Error while checking if email exists' });
+                return res
+                .status(500)
+                .json({ error: 'Error while checking if email exists' });
             }
 
             // Ensure results is defined and has rows property
             if (results && results.rows && results.rows.length > 0) {
-                return res.status(403).json({ message: 'User already exists in DB' });
+                return res
+                .status(403)
+                .json({ message: 'User already exists in DB' });
             }
 
             workerFactory()
@@ -49,19 +60,27 @@ export const apiCreateUsers = [
                 pool.query(createUsers, [firstname, lastname, email, age, uuid], (error, results) => {
                     if (error) {
                         console.error('Error executing query', error);
-                        return res.status(500).json({ error: 'Error while inserting user' });
+                        return res
+                        .status(500)
+                        .json({ error: 'Error while inserting user' });
                     }
                     // Ensure results.rows and results.rows[0] are defined
                     if (results && results.rows && results.rows[0]) {
-                        res.status(201).json({ message: 'User added with ID: ' + results.rows[0].uuid });
+                        res
+                        .status(201)
+                        .json({ message: 'User added with ID: ' + results.rows[0].uuid });
                     } else {
-                        res.status(500).json({ error: 'User creation failed, no ID returned' });
+                        res
+                        .status(500)
+                        .json({ error: 'User creation failed, no ID returned' });
                     }
                 });
             })
             .catch(error => {
                 console.error('Error generating UUID:', error);
-                res.status(500).json({ error: 'Failed to generate UUID' });
+                res
+                .status(500)
+                .json({ error: 'Failed to generate UUID' });
             });
         });
     }
@@ -75,7 +94,9 @@ export const formSubmit = [
         await nmTransportMail(res, firstname, lastname, email, message)
 		} catch (error) {
 			console.error("Error sending mail:", error)
-			res.status(500).json({ error: "Failed to send email" })
+			res
+            .status(500)
+            .json({ error: "Failed to send email" })
 		}
 	},
 ]

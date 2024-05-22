@@ -5,17 +5,19 @@ import { body, validationResult } from "express-validator"
 import nm from "nodemailer"
 import "dotenv/config"
 
+export const validationLayer = (req, res, next) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		return res.status(400).json({ errors: errors.array() })
+	}
+	next()
+}
+
 export const validateUser = [
 	body("firstname").notEmpty().withMessage("First name is required"),
 	body("lastname").notEmpty().withMessage("Last name is required"),
 	body("email").isEmail().withMessage("Invalid email"),
-	(req, res, next) => {
-		const errors = validationResult(req)
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() })
-		}
-		next()
-	},
+	validationLayer,
 ]
 
 export const validateForm = [
@@ -24,24 +26,21 @@ export const validateForm = [
 	body("email").isEmail().withMessage("Invalid email"),
 	body("message").notEmpty().withMessage("Message is required"),
 	body("privacy").equals("on").withMessage("Privacy policy must be accepted"),
-	(req, res, next) => {
-		const errors = validationResult(req)
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() })
-		}
-		next()
-	},
+	validationLayer,
 ]
 
 // UUID Generator
 export const uuidGen = (req, res) => {
 	workerFactory()
 		.then((uuid) => {
-			res.json({ uuid }) // Return the UUID
+			res
+			.json({ uuid }) // Return the UUID
 		})
 		.catch((error) => {
 			console.error("Error fetching UUID:", error)
-			res.status(500).json({ error: "Failed to generate UUID" })
+			res
+			.status(500)
+			.json({ error: "Failed to generate UUID" })
 		})
 }
 
