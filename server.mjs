@@ -22,10 +22,10 @@ const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
 });
-
-//Middlewares
+//static configuration
 server.use(express.static("public"))
 server.use(favicon(path.join(process.cwd(), "public", "favicon.ico")))
+//Middlewares
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(

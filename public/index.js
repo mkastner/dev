@@ -2,6 +2,8 @@ document
 	.getElementById("contactForm")
 	.addEventListener("submit", async function (event) {
 		event.preventDefault()
+
+		// Formularfelder auslesen
 		let firstname = document.getElementById("firstname").value
 		let lastname = document.getElementById("lastname").value
 		let email = document.getElementById("email").value
@@ -19,8 +21,9 @@ document
 
 		const apiUrl = "https://api.msc-connect.xyz/api/form/"
 
-		document.getElementById("loadingIndicator").style.display = "block" // Zeige den Ladeindikator
-		document.querySelector("button[type='submit']").disabled = true // Deaktiviere den Senden-Button
+		// Ladeindikator anzeigen und Senden-Button deaktivieren
+		document.getElementById("loadingIndicator").style.display = "block"
+		document.querySelector("button[type='submit']").disabled = true
 
 		try {
 			const response = await fetch(apiUrl, {
@@ -31,21 +34,24 @@ document
 				body: JSON.stringify(data),
 			})
 
-			document.getElementById("loadingIndicator").style.display = "none" // Verstecke den Ladeindikator
-			document.querySelector("button[type='submit']").disabled = false // Aktiviere den Senden-Button
+			// Ladeindikator ausblenden und Senden-Button aktivieren
+			document.getElementById("loadingIndicator").style.display = "none"
+			document.querySelector("button[type='submit']").disabled = false
 
 			if (response.ok) {
 				alert("Vielen Dank für Ihre Nachricht.")
 			} else {
-				const errorData = await response.json() // Lese Fehlermeldung vom Server
-				alert(`Fehler: ${errorData.message}`) // Zeige spezifische Fehlermeldung
+				const errorData = await response.json()
+				alert(`Fehler: ${errorData.message}`)
 			}
 		} catch (error) {
 			console.error("Fehler beim Senden der Anfrage:", error)
 			alert(
 				"Ein Fehler ist aufgetreten. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.",
 			)
-			document.getElementById("loadingIndicator").style.display = "none" // Verstecke den Ladeindikator im Fehlerfall
-			document.querySelector("button[type='submit']").disabled = false // Aktiviere den Senden-Button
+
+			// Ladeindikator ausblenden und Senden-Button aktivieren im Fehlerfall
+			document.getElementById("loadingIndicator").style.display = "none"
+			document.querySelector("button[type='submit']").disabled = false
 		}
 	})

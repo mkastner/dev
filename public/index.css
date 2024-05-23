@@ -60,6 +60,17 @@ textarea {
     margin-right: 10px; /* Abstand zwischen Checkbox und Text */
 }
 
+#loadingIndicator {
+    text-size-adjust: 10;
+    display: flex;
+    margin: 10px 0;
+    padding: 10px;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Einschließt Padding und Border in die Gesamtbreite */
+}
+
 button {
     background-color: #0056b3;
     color: white;
