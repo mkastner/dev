@@ -8,17 +8,10 @@ import "dotenv/config"
 export const validationLayer = (req, res, next) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
-		return res.status(400).json({ errors: errors.array() })
+		return res.status(403).json({ errors: errors.array() })
 	}
 	next()
 }
-
-export const validateUser = [
-	body("firstname").notEmpty().withMessage("First name is required"),
-	body("lastname").notEmpty().withMessage("Last name is required"),
-	body("email").isEmail().withMessage("Invalid email"),
-	validationLayer,
-]
 
 export const validateForm = [
 	body("firstname").notEmpty().withMessage("First name is required"),
@@ -55,7 +48,7 @@ const nmTransporter = nm.createTransport({
 	requireTLS: true,
 	debug: true,
 	logger: true,
-})
+});
 
 export async function nmTransportMail(
 	res,
@@ -88,4 +81,4 @@ export async function nmTransportMail(
 			.status(500)
 			.json({ error: `Fehler beim Senden der E-Mail: ${error.message}` })
 	}
-}
+};

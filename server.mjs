@@ -44,9 +44,9 @@ server.use(
 	}),
 ) 
 
-server.use(cors(corsOptions))
+server.use(cors(corsOptions));
 server.use(limiter);
-server.set('trust proxy', 1);
+server.set('trust proxy', 2);
 server.use(router);
 server.use(morgan('combined'));
 
@@ -68,7 +68,7 @@ server.use(function (req, res, next) {
 		"Origin, X-Requested-With, Content-Type, Accept",
 	)
 	next()
-})
+});
 
 // config is done in .env or Docker Env mapping
 const serverport = process.env.SERVERPORT || 4000;
@@ -76,4 +76,4 @@ const serverport = process.env.SERVERPORT || 4000;
 server.listen(serverport, () => {
 	console.log(`Server is running on Port: ${serverport}`)
 	console.log(`Cors is set to: ${process.env.CLIENTURL}`)
-})
+});

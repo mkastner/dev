@@ -6,10 +6,11 @@
 	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon server.mjs"
+		"start": "nodemon server.mjs",
+		"prodStart": "node server.mjs"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "msc",
 	"license": "ISC",
 	"dependencies": {
 		"cookie-parser": "^1.4.6",
