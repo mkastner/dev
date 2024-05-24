@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import { workerFactory } from "./workerFactory.mjs"
-import { body, validationResult } from "express-validator"
+import { workerFactory } from './worker-factory.js'
+import { body, validationResult } from 'express-validator'
 
-import nm from "nodemailer"
-import "dotenv/config"
+import nm from 'nodemailer'
+import 'dotenv/config'
 
 export const validationLayer = (req, res, next) => {
 	const errors = validationResult(req)
@@ -14,11 +14,11 @@ export const validationLayer = (req, res, next) => {
 }
 
 export const validateForm = [
-	body("firstname").notEmpty().withMessage("First name is required"),
-	body("lastname").notEmpty().withMessage("Last name is required"),
-	body("email").isEmail().withMessage("Invalid email"),
-	body("message").notEmpty().withMessage("Message is required"),
-	body("privacy").equals("on").withMessage("Privacy policy must be accepted"),
+	body('firstname').notEmpty().withMessage('First name is required'),
+	body('lastname').notEmpty().withMessage('Last name is required'),
+	body('email').isEmail().withMessage('Invalid email'),
+	body('message').notEmpty().withMessage('Message is required'),
+	body('privacy').equals('on').withMessage('Privacy policy must be accepted'),
 	validationLayer,
 ]
 
@@ -30,10 +30,10 @@ export const uuidGen = (req, res) => {
 			.json({ uuid }) // Return the UUID
 		})
 		.catch((error) => {
-			console.error("Error fetching UUID:", error)
+			console.error('Error fetching UUID:', error)
 			res
 			.status(500)
-			.json({ error: "Failed to generate UUID" })
+			.json({ error: 'Failed to generate UUID' })
 		})
 }
 
@@ -76,7 +76,7 @@ export async function nmTransportMail(
 				message: `E-Mail erfolgreich gesendet: ${info.response}, Nachrichten-ID: ${info.messageId}`,
 			})
 	} catch (error) {
-		console.error("Error sending mail:", error)
+		console.error('Error sending mail:', error)
 		res
 			.status(500)
 			.json({ error: `Fehler beim Senden der E-Mail: ${error.message}` })

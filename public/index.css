@@ -1,87 +1,118 @@
-body {
-    font-family: 'Arial', sans-serif;
-    padding: 20px;
-    background: #f4f4f4;
-    display: flex;
-    justify-content: center; /* Zentriert den Inhalt horizontal */
-    align-items: center; /* Zentriert den Inhalt vertikal */
-    min-height: 100vh; /* Stellt sicher, dass der Body die ganze Höhe des Viewports einnimmt */
-    margin: 0; /* Entfernt den Standard-Margin */
+:root {
+  --mail-form-font-family: Arial, sans-serif;
+  --mail-form-background: #fff;
+  --mail-form-font-size: 1rem;
+  --mail-form-headline-size: 1.5rem;
 }
 
 form {
-    background: #ffffff;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 33vw; /* Setzt die Breite auf 33% des Viewports */
-    max-width: 400px; /* Maximale Breite des Formulars */
-    margin: 20px; /* Zentriert das Formular horizontal und gibt vertikalen Abstand */
-    border-radius: 5px;
-    box-sizing: border-box; /* Einschließt Padding und Border in die Gesamtbreite */
+  min-width: 300px;
+  background: #ffffff;
+  padding: 2rem;
+  width: 100%;
+  /* Setzt die Breite auf 33% des Viewports */
+  max-width: 600px;
+  /* Maximale Breite des Formulars */
+  margin: 0;
+  /* Zentriert das Formular horizontal und gibt vertikalen Abstand */
 }
 
 h2 {
-    text-align: center;
-    color: #333;
+  font-family: var(--mail-form-font-family);
+  font-size: var(--mail-form-headline-size);
+  text-align: center;
+  color: #333;
 }
 
 label {
-    color: #666;
-    margin: 8px 0;
-    display: block;
+  font-family: var(--mail-form-font-family);
+  color: #666;
+  margin: 8px 0;
+  display: block;
 }
 
 input[type="text"],
 input[type="email"],
 textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Einschließt Padding und Border in die Gesamtbreite */
+  font-family: var(--mail-form-font-family);
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  /* Einschließt Padding und Border in die Gesamtbreite */
 }
 
 textarea {
-    height: 150px;
-    resize: vertical;
+  height: 30em;
+  resize: vertical;
 }
 
 .checkbox-container {
-    font-size: 12px;
-    color: #666;
-    margin: 10px 0;
-    display: flex;
-    align-items: center  /* Richten Sie die Checkbox und das Label am Anfang aus */
+  font-size: var(--mail-form-font-size);
+  font-family: var(--mail-form-font-family);
+  color: #666;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  /* Richten Sie die Checkbox und das Label am Anfang aus */
 }
 
 .checkbox-container input[type="checkbox"] {
-    margin-right: 10px; /* Abstand zwischen Checkbox und Text */
+  margin-right: 10px;
+  /* Abstand zwischen Checkbox und Text */
 }
 
 #loadingIndicator {
-    text-size-adjust: 10;
-    display: flex;
-    margin: 10px 0;
-    padding: 10px;
-    background: #f4f4f4;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Einschließt Padding und Border in die Gesamtbreite */
+  text-size-adjust: 10;
+  display: flex;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  /* Einschließt Padding und Border in die Gesamtbreite */
 }
 
 button {
-    background-color: #0056b3;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 5px;
-    box-sizing: border-box; /* Einschließt Padding in die Gesamtbreite */
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 25rem;
+  font-family: var(--mail-form-font-family);
+  font-size: var(--mail-form-font-size);
+  background-color: #0056b3;
+  color: white;
+  padding: 0.75rem 1rem;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+  box-sizing: border-box;
+  /* Einschließt Padding in die Gesamtbreite */
 }
 
 button:hover {
-    background-color: #004494;
+  background-color: #004494;
+}
+
+.error-message {
+  font-family: var(--mail-form-font-family);
+  display: block;
+  overflow-x: hidden;
+  height: 0;
+  max-height: 2em;
+  color: red;
+  font-size: 0.8rem;
+  transition: max-height 0.5s;
+}
+
+.was-submitted input[type="text"]:invalid + .error-message,
+.was-submitted textarea:invalid + .error-message,
+.was-submitted input[type="email"]:invalid + .error-message,
+.was-submitted input[type="checkbox"]:invalid + .error-message {
+  height: auto;
+  overflow-x: visible;
 }

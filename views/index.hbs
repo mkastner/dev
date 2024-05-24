@@ -1,0 +1,32 @@
+<form id="contactForm">
+  <label for="firstname">Vorname</label>
+  <input type="text" id="firstname" name="firstname" required autocomplete="on" />
+  <span class="error-message">Bitte geben Sie Ihren Vornamen ein.</span>
+  <label for="lastname">Nachname</label>
+  <input type="text" id="lastname" name="lastname" required autocomplete="on" />
+  <span class="error-message">Bitte geben Sie Ihren Nachnamen ein.</span>
+  <label for="email">E-Mail</label>
+  <input type="email" id="email" name="email" required autocomplete="on" />
+  <span class="error-message">Bitte geben Sie eine gültige E-Mail-Adresse ein.</span>
+
+  <label for="message">Ihre Mitteilung</label>
+  <textarea id="message" name="message" required></textarea>
+  <span class="error-message">Bitte schreiben Sie Ihren Text an uns.</span>
+  <div class="checkbox-container">
+    <input type="checkbox" id="privacy" required />
+    <span class="error-message">Bitte das Kästchen anklicken</span>
+    <label for="privacy">
+      Bitte bestätigen Sie, dass Sie die
+      <a href="/datenschutz"
+        class="fmh-link"
+        title="Datenschutzrichtlinien der FMH
+        Finanzberatung">
+        Datenschutzrichtlinien
+      </a>
+      der FMH-Finanzberatung gelesen haben und diese
+      akzeptieren.
+    </label>
+  </div>
+  <button type="submit">Senden</button>
+  <div id="loadingIndicator" style="display: none;"> Wird geladen...</div>
+</form>

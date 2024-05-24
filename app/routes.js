@@ -1,6 +1,6 @@
 import Router from 'express';
-import { formSubmit, serveForm } from './logic.mjs';
-import { uuidGen } from './util.mjs';
+import { formSubmit, serveForm } from './logic.js';
+import { uuidGen } from './util.js';
 
 
 //Router for the API

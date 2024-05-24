@@ -2,7 +2,7 @@ import { Worker } from 'worker_threads';
 
 async function createUUIDAsync() {
     return new Promise((resolve, reject) => {
-        const worker = new Worker('./worker.mjs');
+        const worker = new Worker('./worker.js');
         worker.on('message', (uuid) => {
             resolve(uuid);
             worker.terminate();
