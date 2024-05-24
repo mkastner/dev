@@ -101,10 +101,6 @@ server.use(function(req, res, next) {
   next();
 });
 
-server.get('/', (req, res) => {
-  res.send('Hello World');
-});
-
 // config is done in .env or Docker Env mapping
 const serverport = process.env.SERVERPORT || 4000;
 // Start the server
